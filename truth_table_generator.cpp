@@ -94,7 +94,7 @@ void write_txt(std::vector<std::vector<int>> &truth_table, std::vector<std::stri
 	for (size_t r = 0; r < vars.size(); r++) {
 		out << vars[r] << " ";
 	}
-	out << "\n";
+	out << std::endl;
 	for (size_t r = 0; r < n_row; r++) {
 		for (size_t c = 0; c < n_col-output_size; c++) {
 			int more_space_size = vars[c].length() - 1;
@@ -104,13 +104,30 @@ void write_txt(std::vector<std::vector<int>> &truth_table, std::vector<std::stri
 			}
 		}
 		out << truth_table[r][n_col-output_size];
-		out << "\n";
+		out << std::endl;
 	}
 
 }
 
 void write_pla(std::vector<std::vector<int>> &truth_table, std::vector<std::string> &vars) {
-
+	size_t n_row = truth_table.size(), n_col = vars.size() + output_size; 
+	std::ofstream out(save_path, std::fstream::in | std::fstream::out | std::fstream::app);
+	out << ".i" << " " <<  n_col - output_size << std::endl;
+	out << ".o" << " " << output_size << std::endl;
+	out << "ilb" << " ";
+	for (auto &var: vars) { out << var << " "; }
+	out << std::endl;
+	out << ".ob Y" << std::endl;
+	for (size_t r = 0; r < n_row; r++) {
+		int value = truth_table[r][n_col-output_size];
+		if (value == 1) {
+			for (size_t c = 0; c < n_col - output_size; c++) {
+				out << truth_table[r][c];
+			}
+			out << " " << truth_table[r][n_col-output_size] << std::endl;
+		}
+	}
+	out << ".e";
 }
 
 void make_table(std::map<std::string, std::vector<std::string>> &data_map) {
