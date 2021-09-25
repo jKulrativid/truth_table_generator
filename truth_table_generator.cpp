@@ -156,7 +156,7 @@ void process() {
 	make_table(data_map);
 }
 
-std::string validate_file(std::string path) {
+std::string validate_input_file(std::string path) {
 	size_t path_length = path.length();
 	if (path == "") {
 		return "you didn't give any file path";
@@ -210,7 +210,7 @@ int main(int argc, char** argv) {
 				if (i >= argc) {
 					throw std::string("NO_GIVEN_SAVE_PATH");
 				}
-				read_path = std::string(argv[i]);
+				save_path = std::string(argv[i]);
 			}
 			catch (std::exception &e) {
 				std::cout << e.what() << "\n";
@@ -237,15 +237,10 @@ int main(int argc, char** argv) {
 		save_file.close();
 	}
 
-	std::string read_path_valid = validate_file(read_path);
-	std::string save_path_valid = validate_file(save_path);
+	std::string read_path_valid = validate_input_file(read_path);
 
 	if (read_path_valid != "OK") {
 		std::cout << "ERROR on read path: " << read_path_valid;
-		exit(1);
-	}
-	if (save_path_valid != "OK") {
-		std::cout << "ERROR on save path: " << save_path_valid;
 		exit(1);
 	}
 

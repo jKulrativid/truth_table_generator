@@ -1,6 +1,9 @@
 # testfile
 test.cpp
 
+# default save file
+out.txt
+
 # Prerequisites
 *.d
 
